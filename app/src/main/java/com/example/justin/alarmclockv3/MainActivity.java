@@ -13,14 +13,16 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
+    //Variables for alarm
     long currentTime = Calendar.getInstance().getTimeInMillis();
-
     MediaPlayer mediaSong;
     int startId = 0;
     long DinnerTime;
     boolean isRunning;
-    Timer timer = new Timer();
+//    Timer timer = new Timer();
 
+
+    //Starts the alarm by calling the sound file, sets the startId to 1
     public void StartAlarm(){
         Toast.makeText(getApplicationContext(), "I am running!", Toast.LENGTH_SHORT).show();
         mediaSong = MediaPlayer.create(this, R.raw.tinkerbell);
@@ -28,12 +30,13 @@ public class MainActivity extends AppCompatActivity {
         startId = 1;
     }
 
+    //Stops the alarm from running and resets the startId
     public void StopRunningAlarm(){
         mediaSong.stop();
         startId = 0;
     }
 
-
+//  function for setting the dinner time.
     public long DinnerTime (){
 
         long dTime;
@@ -49,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         return dTime;
     }
 
+    //On create the program runs this code
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,23 +60,14 @@ public class MainActivity extends AppCompatActivity {
 
         DinnerTime = DinnerTime();
 
+        if(DinnerTime == currentTime){
+            Toast.makeText(getApplicationContext(), "running!", Toast.LENGTH_SHORT).show();
+            Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            v.vibrate(1000);
+            StartAlarm();
+        }
 
-//        TimerTask timerTask = new TimerTask() {
-//            @Override
-//            public void run() {
-//                StartAlarm();
-//            }
-//        };
-//
-//        DinnerTimer.schedule(StartAlarm(), );
-//        if(DinnerTime == currentTime){
-//            Toast.makeText(getApplicationContext(), "running!", Toast.LENGTH_SHORT).show();
-//            Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-//            v.vibrate(1000);
-//            StartAlarm();
-//        }
-
-
+        //Listener for Stop Button
         final Button StopAlarm = (Button) findViewById(R.id.endAlarm);
 
         StopAlarm.setOnClickListener(new View.OnClickListener(){
